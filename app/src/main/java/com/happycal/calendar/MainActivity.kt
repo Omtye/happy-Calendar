@@ -1,18 +1,22 @@
 package com.happycal.calendar
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.happycal.calendar.databinding.CalendarListBinding
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
 
-    /*var mCalendarList : MutableLiveData<ArrayList<Object>> = MutableLiveData<ArrayList<Object>>()*/
+    var mCalendarList : MutableLiveData<ArrayList<Object>> = MutableLiveData<ArrayList<Object>>()
     private lateinit var binding : CalendarListBinding
     private lateinit var model   : CalendarListViewModel
 
@@ -23,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        lateinit var viewModelFactory : ViewModelProvider.AndroidViewModelFactory
+        var viewModelFactory : ViewModelProvider.AndroidViewModelFactory? = null
 
         if(viewModelFactory == null){
             viewModelFactory = ViewModelProvider.AndroidViewModelFactory.getInstance(application)
@@ -41,15 +45,26 @@ class MainActivity : AppCompatActivity() {
             if(adapter != null){
                 adapter.setCalendarList(it)
             } else {
-              var manager : StaggeredGridLayoutManager = StaggeredGridLayoutManager(7, StaggeredGridLayoutManager.VERTICAL)
+                var manager : StaggeredGridLayoutManager = StaggeredGridLayoutManager(7, StaggeredGridLayoutManager.VERTICAL)
                 adapter = CalendarAdapter(it)
+                view.layoutManager = manager
+                view.adapter = adapter
+
+                if(model.mCenterPosition!! >= 0){
+                    view.scrollToPosition(model.mCenterPosition!!)
+                }
             }
 
         }
 
+        model.mCalendarList.observe(this, nameObserver)
+
+        setCalendarList()
 
 
-        /*private fun setCalendarList() : Unit{
+    }
+
+    private fun setCalendarList() : Unit{
 
         var cal : GregorianCalendar = GregorianCalendar()
 
@@ -77,7 +92,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         mCalendarList.value = calendarList
-    }*/
     }
 
 }
