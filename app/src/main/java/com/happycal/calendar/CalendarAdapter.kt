@@ -10,29 +10,30 @@ import com.happycal.calendar.databinding.ItemCalendarHeaderBinding
 import com.happycal.calendar.databinding.ItemDayBinding
 import com.happycal.calendar.databinding.ItemDayEmptyBinding
 import java.util.*
+import kotlin.collections.ArrayList
 
 
-class CalendarAdapter : RecyclerView.Adapter<ViewHolder>() {
+class CalendarAdapter() : RecyclerView.Adapter<ViewHolder>() {
 
     val HEADER_TYPE : Int = 0
     val EMPTY_TYPE  : Int = 1
     val DAY_TYPE    : Int = 2
-    var mCalendarList : List<Object>? = null
+    lateinit var mCalendarList : ArrayList<Any>
 
 
-    class CalendarAdapter() {
 
-        constructor(mCalendarList: List<Object>?) {
-            this.mCalendarList = mCalendarList
-        }
+    constructor(mCalendarList: ArrayList<Any>) : this() {
+        this.mCalendarList = mCalendarList
     }
 
+    /*class CalendarAdapater(calendarList : ArrayList<Any>) {
+
+
+    }*/
 
 
 
-
-
-    fun setCalendarList(calendarList : List<Object>){
+    fun setCalendarList(calendarList: ArrayList<Any>){
         mCalendarList = calendarList
         notifyDataSetChanged()
     }

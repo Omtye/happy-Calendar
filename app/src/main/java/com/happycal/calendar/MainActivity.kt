@@ -5,9 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.happycal.calendar.databinding.CalendarListBinding
-import sun.util.locale.provider.LocaleProviderAdapter.getAdapter
 
 
 class MainActivity : AppCompatActivity() {
@@ -16,56 +16,40 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding : CalendarListBinding
     private lateinit var model   : CalendarListViewModel
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var viewModelFactory : ViewModelProvider.AndroidViewModelFactory? = null
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        lateinit var viewModelFactory : ViewModelProvider.AndroidViewModelFactory
 
         if(viewModelFactory == null){
             viewModelFactory = ViewModelProvider.AndroidViewModelFactory.getInstance(application)
         }
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        model = ViewModelProvider(this, viewModelFactory) as CalendarListViewModel
+        model   = ViewModelProvider(this, viewModelFactory).get(CalendarListViewModel::class.java)
 
-        binding.setModel(model);
-        binding.setLifecycleOwner(this);
+        binding.model = model
+        binding.lifecycleOwner = this
 
-        val nameObserver = Observer<ArrayList<Any>> { objects ->
-            // Update the UI, in this case, a TextView.
-            val view = binding.pagerCalendar
-            var adapter = view.adapter as CalendarAdapter?
-            if (adapter != null) {
-                adapter.setCalendarList(objects as List<Object>)
+        val nameObserver = Observer<ArrayList<Any>>{
+            var view    : RecyclerView      = binding.pagerCalendar
+            var adapter : CalendarAdapter   = view.adapter as CalendarAdapter
+
+            if(adapter != null){
+                adapter.setCalendarList(it)
             } else {
-                val manager =
-                    StaggeredGridLayoutManager(7, StaggeredGridLayoutManager.VERTICAL)
-                adapter = CalendarAdapter()
-                view.layoutManager = manager
-                view.adapter = adapter
-                if (model.mCenterPosition!! >= 0) {
-                    view.scrollToPosition(model.mCenterPosition!!)
-                }
+              var manager : StaggeredGridLayoutManager = StaggeredGridLayoutManager(7, StaggeredGridLayoutManager.VERTICAL)
+                adapter = CalendarAdapter(it)
             }
+
         }
 
-        observe();
-        if (model != null) {
-            model.initCalendarList();
-        }
-
-    }
-
-    private fun observe() {
-        model.mCalendarList.observe(this, Observer<ArrayList<Any>>() {
-
-        })
 
 
-    }
-
-    /*private fun setCalendarList() : Unit{
+        /*private fun setCalendarList() : Unit{
 
         var cal : GregorianCalendar = GregorianCalendar()
 
@@ -94,5 +78,6 @@ class MainActivity : AppCompatActivity() {
 
         mCalendarList.value = calendarList
     }*/
+    }
 
 }
