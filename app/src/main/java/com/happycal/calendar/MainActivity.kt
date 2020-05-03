@@ -38,15 +38,20 @@ class MainActivity : AppCompatActivity() {
         binding.model = model
         binding.lifecycleOwner = this
 
-        val nameObserver = Observer<ArrayList<Any>>{
+
+        model.mCalendarList.observe(this, Observer<ArrayList<Any>>{ objects ->
             var view    : RecyclerView      = binding.pagerCalendar
-            var adapter : CalendarAdapter   = view.adapter as CalendarAdapter
+
+            var adapter : CalendarAdapter?   = view.adapter as? CalendarAdapter
+
+
+
 
             if(adapter != null){
-                adapter.setCalendarList(it)
+                adapter.setCalendarList(objects)
             } else {
                 var manager : StaggeredGridLayoutManager = StaggeredGridLayoutManager(7, StaggeredGridLayoutManager.VERTICAL)
-                adapter = CalendarAdapter(it)
+                adapter = CalendarAdapter(objects)
                 view.layoutManager = manager
                 view.adapter = adapter
 
@@ -55,16 +60,19 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
+        })
+
+        if(model != null){
+            Log.d("testt","check11")
+            model.initCalendarList()
+
+            Log.d("testt","check22")
         }
-
-        model.mCalendarList.observe(this, nameObserver)
-
-        setCalendarList()
 
 
     }
 
-    private fun setCalendarList() : Unit{
+    /*private fun setCalendarList() : Unit{
 
         var cal : GregorianCalendar = GregorianCalendar()
 
@@ -92,6 +100,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         mCalendarList.value = calendarList
-    }
+    }*/
 
 }

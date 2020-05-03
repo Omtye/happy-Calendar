@@ -26,12 +26,6 @@ class CalendarAdapter() : RecyclerView.Adapter<ViewHolder>() {
         this.mCalendarList = mCalendarList
     }
 
-    /*class CalendarAdapater(calendarList : ArrayList<Any>) {
-
-
-    }*/
-
-
 
     fun setCalendarList(calendarList: ArrayList<Any>){
         mCalendarList = calendarList

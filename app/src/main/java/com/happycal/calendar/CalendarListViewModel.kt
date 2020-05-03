@@ -35,8 +35,6 @@ class CalendarListViewModel : ViewModel() {
     }
 
 
-
-
     fun initCalendarList() {
         val cal = GregorianCalendar()
         setCalendarList(cal)
