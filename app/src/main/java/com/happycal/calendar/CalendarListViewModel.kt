@@ -80,7 +80,7 @@ class CalendarListViewModel : ViewModel() {
                 e.printStackTrace()
             }
         }
-        Log.d("testt", "calendarList : " + calendarList.toString())
+
         mCalendarList.setValue(calendarList)
     }
 

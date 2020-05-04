@@ -22,21 +22,22 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:foreground="?android:selectableItemBackgroundBorderless"
+            android:onClick="@{(v)->model.startRecord(v)}"
             android:orientation="vertical"
-            app:layout_constraintDimensionRatio="2:3"
-            tools:ignore="MissingConstraints">
+            app:layout_constraintDimensionRatio="2:3">
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#090808" />
+                android:background="@color/calendarBorder" />
 
             <TextView
                 setDayText="@{model.mCalendar}"
+                android:fontFamily="@font/kcc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:textSize="9sp"
+                android:textSize="14sp"
                 tools:text="1" />
 
 
