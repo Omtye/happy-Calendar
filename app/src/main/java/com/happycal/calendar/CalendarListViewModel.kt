@@ -1,5 +1,6 @@
 package com.happycal.calendar
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import java.util.*
 
@@ -79,6 +80,7 @@ class CalendarListViewModel : ViewModel() {
                 e.printStackTrace()
             }
         }
+        Log.d("testt", "calendarList : " + calendarList.toString())
         mCalendarList.setValue(calendarList)
     }
 

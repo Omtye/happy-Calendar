@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.happycal.calendar.databinding.CalendarListBinding
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -63,10 +62,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         if(model != null){
-            Log.d("testt","check11")
             model.initCalendarList()
-
-            Log.d("testt","check22")
         }
 
 
